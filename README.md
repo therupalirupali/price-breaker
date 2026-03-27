@@ -1,12 +1,14 @@
 # Price Breaker - Metal Making Charge Calculator
 
-A React application to calculate metal making charges based on final price and configured metal pricing.
+A React application to calculate metal making charges based on final price and configured metal pricing, with JWT authentication and authorization.
 
 ## Features
 
+- **JWT Authentication**: Secure login and signup with JWT token management
+- **Role-Based Authorization**: Support for user and admin roles
 - **Making Charge Calculator**: Input final price and automatically calculate the making charge based on current metal price and GST
 - **Configuration Management**: Update current metal price and GST percentage through an intuitive UI
-- **Persistent Storage**: Settings are saved to localStorage and persist across sessions
+- **Persistent Storage**: Settings and authentication tokens are saved to localStorage and persist across sessions
 - **Detailed Breakdown**: View detailed calculation breakdown including metal price, making charge, and GST amount
 - **Responsive Design**: Works seamlessly on desktop and mobile devices
 
@@ -27,6 +29,22 @@ Making Charge = (Final Price / (1 + GST%)) - Metal Price
 ### Prerequisites
 - Node.js (v16 or higher)
 - npm or yarn
+
+### Demo Credentials
+
+To test the application, use these credentials:
+
+**Regular User:**
+```
+Email: user@example.com
+Password: any password
+```
+
+**Admin User:**
+```
+Email: admin@example.com
+Password: any password
+```
 
 ### Installation
 
@@ -63,16 +81,59 @@ npm run preview
 ```
 src/
 ├── components/
-│   ├── Calculator.tsx      # Making charge calculator component
-│   ├── Calculator.css      # Calculator styling
-│   ├── Settings.tsx        # Configuration settings component
-│   └── Settings.css        # Settings styling
+│   ├── Calculator.tsx           # Making charge calculator component
+│   ├── Calculator.css           # Calculator styling
+│   ├── Settings.tsx             # Configuration settings component
+│   ├── Settings.css             # Settings styling
+│   ├── Login.tsx                # Login/Sign up component
+│   ├── Login.css                # Login styling
+│   ├── Header.tsx               # Header with user info and logout
+│   ├── Header.css               # Header styling
+│   └── ProtectedRoute.tsx       # Route protection wrapper
 ├── context/
-│   └── ConfigContext.tsx   # Global configuration context and hooks
-├── App.tsx                 # Main application component
-├── App.css                 # Application styling
-├── main.tsx                # Application entry point
-└── index.css               # Global styles
+│   ├── AuthContext.tsx          # JWT authentication state management
+│   └── ConfigContext.tsx        # Configuration context
+├── utils/
+│   └── navigationUtils.ts       # Token and API utilities
+├── App.tsx                      # Main application component
+├── App.css                      # Application styling
+├── main.tsx                     # Application entry point
+└── index.css                    # Global styles
+```
+
+## Authentication & Authorization
+
+This application includes JWT-based authentication and authorization:
+
+- **Login/Signup**: Users can create accounts or sign in with email credentials
+- **JWT Token Management**: Tokens are automatically generated, stored, and validated
+- **Role-Based Access**: Support for "user" and "admin" roles
+- **Protected Routes**: Calculator and settings components require authentication
+- **Token Persistence**: Tokens are stored in localStorage and persist across sessions
+- **Auto-Logout**: Expired tokens are automatically cleared
+
+**See [AUTH.md](./AUTH.md) for detailed authentication documentation.**
+
+### Authentication Flow
+
+1. User visits the app → Login page is displayed
+2. User enters email and password → JWT token is generated
+3. Token is stored in localStorage → User is logged in
+4. User can access protected features (calculator, settings)
+5. User clicks logout → Token is cleared and user returns to login
+
+### Making Authenticated API Calls
+
+The `apiRequest` utility automatically adds JWT tokens to requests:
+
+```typescript
+import { apiRequest } from './utils/navigationUtils';
+
+const response = await apiRequest('/api/endpoint', {
+  method: 'POST',
+  body: JSON.stringify(data),
+});
+// Authorization header with Bearer token is automatically included
 ```
 
 ## Usage
