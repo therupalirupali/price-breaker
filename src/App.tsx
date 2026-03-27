@@ -1,16 +1,30 @@
+import { AuthProvider, useAuth } from './context/AuthContext';
 import { ConfigProvider } from './context/ConfigContext';
 import { Calculator } from './components/Calculator';
 import { Settings } from './components/Settings';
+import { Login } from './components/Login';
+import { Header } from './components/Header';
 import './App.css';
 
-function App() {
+function AppContent() {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="app">
+        <div className="loading-screen">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Login />;
+  }
+
   return (
     <ConfigProvider>
       <div className="app">
-        <header className="app-header">
-          <h1>💎 Price Breaker</h1>
-          <p>Metal Making Charge Calculator</p>
-        </header>
+        <Header />
 
         <main className="app-main">
           <div className="container">
@@ -24,6 +38,14 @@ function App() {
         </footer>
       </div>
     </ConfigProvider>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 
