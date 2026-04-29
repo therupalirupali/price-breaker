@@ -1,13 +1,54 @@
+/**
+ * @fileoverview Configuration Settings Component
+ * 
+ * Allows users to update metal price and GST percentage.
+ * Changes are persisted to localStorage via ConfigContext.
+ * Shows confirmation message on successful save.
+ * 
+ * @module components/Settings
+ */
+
 import React, { useState } from 'react';
 import { useConfig } from '../context/ConfigContext';
 import './Settings.css';
 
+/**
+ * Settings Component
+ * 
+ * Provides interface to configure:
+ * - Current Metal Price: Base price per unit for calculations
+ * - GST Percentage: Tax percentage to apply (0-100)
+ * 
+ * Features:
+ * - Input validation
+ * - Save with confirmation feedback
+ * - Reset to current values
+ * - Automatic persistence to localStorage
+ * 
+ * The values entered here are used by the Calculator component
+ * for making charge calculations.
+ * 
+ * @component
+ * @returns {React.ReactElement} Settings panel with input fields and buttons
+ */
 export const Settings: React.FC = () => {
   const { config, updateConfig } = useConfig();
   const [metalPrice, setMetalPrice] = useState<string>(config.currentMetalPrice.toString());
   const [gstPercentage, setGstPercentage] = useState<string>(config.gstPercentage.toString());
   const [saved, setSaved] = useState(false);
 
+  /**
+   * Validates and saves configuration settings
+   * 
+   * Validation:
+   * - Metal price must be a positive number
+   * - GST percentage must be between 0 and 100
+   * 
+   * Shows confirmation message for 2 seconds after successful save.
+   * 
+   * @function
+   * @returns {void}
+   */
   const handleSave = () => {
     const metalValue = parseFloat(metalPrice);
     const gstValue = parseFloat(gstPercentage);
@@ -31,6 +72,13 @@ export const Settings: React.FC = () => {
     setTimeout(() => setSaved(false), 2000);
   };
 
+  /**
+   * Resets form fields to current saved configuration values
+   * Discards unsaved changes
+   * 
+   * @function
+   * @returns {void}
+   */
   const handleReset = () => {
     setMetalPrice(config.currentMetalPrice.toString());
     setGstPercentage(config.gstPercentage.toString());

@@ -27,6 +27,7 @@ Making Charge = (Final Price / (1 + GST%)) - Metal Price
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js (v16 or higher)
 - npm or yarn
 
@@ -35,12 +36,14 @@ Making Charge = (Final Price / (1 + GST%)) - Metal Price
 To test the application, use these credentials:
 
 **Regular User:**
+
 ```
 Email: user@example.com
 Password: any password
 ```
 
 **Admin User:**
+
 ```
 Email: admin@example.com
 Password: any password
@@ -49,6 +52,7 @@ Password: any password
 ### Installation
 
 1. Install dependencies:
+
 ```bash
 npm install
 ```
@@ -56,6 +60,7 @@ npm install
 ### Development
 
 Run the development server:
+
 ```bash
 npm run dev
 ```
@@ -65,6 +70,7 @@ The application will be available at `http://localhost:5173`
 ### Build
 
 Build for production:
+
 ```bash
 npm run build
 ```
@@ -72,6 +78,7 @@ npm run build
 ### Preview
 
 Preview the production build:
+
 ```bash
 npm run preview
 ```
@@ -127,10 +134,10 @@ This application includes JWT-based authentication and authorization:
 The `apiRequest` utility automatically adds JWT tokens to requests:
 
 ```typescript
-import { apiRequest } from './utils/navigationUtils';
+import { apiRequest } from "./utils/navigationUtils";
 
-const response = await apiRequest('/api/endpoint', {
-  method: 'POST',
+const response = await apiRequest("/api/endpoint", {
+  method: "POST",
   body: JSON.stringify(data),
 });
 // Authorization header with Bearer token is automatically included
@@ -139,6 +146,7 @@ const response = await apiRequest('/api/endpoint', {
 ## Usage
 
 ### Calculator
+
 1. Enter the final price (including GST) in the "Final Price" field
 2. Click "Calculate Making Charge"
 3. View the breakdown of:
@@ -148,6 +156,7 @@ const response = await apiRequest('/api/endpoint', {
    - Percentage of making charge relative to metal price
 
 ### Settings
+
 1. Update the current metal price
 2. Adjust the GST percentage
 3. Click "Save Configuration"
@@ -156,6 +165,7 @@ const response = await apiRequest('/api/endpoint', {
 ## Configuration Storage
 
 Configuration is stored in browser's localStorage under the key `priceBreakerConfig`. The stored data includes:
+
 - `currentMetalPrice`: Current market price of metal
 - `gstPercentage`: GST rate to be applied
 

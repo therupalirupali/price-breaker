@@ -1,13 +1,61 @@
+/**
+ * @fileoverview Making Charge Calculator Component
+ * 
+ * Calculates making charges based on:
+ * - Final price (user input)
+ * - Current metal price (from settings)
+ * - GST percentage (from settings)
+ * 
+ * @module components/Calculator
+ */
+
 import React, { useState } from 'react';
 import { useConfig } from '../context/ConfigContext';
 import './Calculator.css';
 
+/**
+ * Calculator Component
+ * 
+ * Allows users to calculate making charges by entering a final price.
+ * Uses the formula:
+ * ```
+ * Making Charge = (Final Price / (1 + GST%)) - Metal Price
+ * ```
+ * 
+ * Features:
+ * - Input validation for final price
+ * - Real-time calculation
+ * - Detailed breakdown of calculation components
+ * - Reset functionality
+ * 
+ * Dependencies:
+ * - ConfigContext for metal price and GST settings
+ * 
+ * @component
+ * @returns {React.ReactElement} Calculator UI with input, button, and results
+ */
 export const Calculator: React.FC = () => {
   const { config } = useConfig();
   const [finalPrice, setFinalPrice] = useState<number | ''>('');
   const [makingCharge, setMakingCharge] = useState<number | null>(null);
   const [details, setDetails] = useState<any>(null);
 
+  /**
+   * Calculates the making charge based on final price and configuration
+   * 
+   * Formula Breakdown:
+   * ```
+   * Final Price = (Metal Price + Making Charge) × (1 + GST%)
+   * 
+   * Rearranged:
+   * Metal Price + Making Charge = Final Price / (1 + GST%)
+   * Making Charge = (Final Price / (1 + GST%)) - Metal Price
+   * GST Amount = (Metal Price + Making Charge) × (GST% / 100)
+   * ```
+   * 
+   * @function
+   * @returns {void} Updates state with calculated values
+   */
   const handleCalculate = () => {
     if (!finalPrice || finalPrice <= 0) {
       alert('Please enter a valid final price');
@@ -38,6 +86,13 @@ export const Calculator: React.FC = () => {
     });
   };
 
+  /**
+   * Resets the calculator to initial state
+   * Clears all input fields and calculation results
+   * 
+   * @function
+   * @returns {void} Clears all calculator state
+   */
   const handleReset = () => {
     setFinalPrice('');
     setMakingCharge(null);
