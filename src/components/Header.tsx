@@ -1,7 +1,28 @@
+/**
+ * @fileoverview Application Header Component
+ * 
+ * Displays application title, user information, and logout button.
+ * Shows user email and admin status if applicable.
+ * 
+ * @module components/Header
+ */
+
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import './Header.css';
 
+/**
+ * Header Component
+ * 
+ * Application header showing:
+ * - App title and description
+ * - Current user's email
+ * - Admin badge (if user is admin)
+ * - Logout button
+ * 
+ * @component
+ * @returns {React.ReactElement} Header UI with user info and logout button
+ */
 export const Header: React.FC = () => {
   const { user, logout } = useAuth();
 

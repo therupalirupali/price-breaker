@@ -1,7 +1,32 @@
+/**
+ * @fileoverview Login/Registration Component
+ * 
+ * Provides authentication form for login and registration.
+ * Supports both user and admin accounts based on email.
+ * Shows demo credentials for testing.
+ * 
+ * @module components/Login
+ */
+
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import './Login.css';
 
+/**
+ * Login Component
+ * 
+ * Provides user authentication interface with:
+ * - Email and password input fields
+ * - Sign In / Sign Up mode toggle
+ * - Error message display
+ * - Loading state during authentication
+ * - Demo credentials helper
+ * 
+ * Admin accounts are created by using email containing 'admin'.
+ * 
+ * @component
+ * @returns {React.ReactElement} Login/registration form UI
+ */
 export const Login: React.FC = () => {
   const { login, register } = useAuth();
   const [email, setEmail] = useState('');
@@ -10,6 +35,16 @@ export const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
 
+  /**
+   * Handles form submission for login or registration
+   * 
+   * Validates input, calls appropriate auth function, and handles errors.
+   * 
+   * @async
+   * @function
+   * @param {React.FormEvent} e - Form submission event
+   * @returns {Promise<void>}
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -33,6 +68,13 @@ export const Login: React.FC = () => {
     }
   };
 
+  /**
+   * Toggles between login and registration mode
+   * Clears form fields and error messages
+   * 
+   * @function
+   * @returns {void}
+   */
   const toggleMode = () => {
     setError('');
     setEmail('');
